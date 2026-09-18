@@ -1,0 +1,1 @@
+export { IndexGraphPage } from './IndexGraphPage';

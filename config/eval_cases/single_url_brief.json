@@ -1,0 +1,30 @@
+[
+  {
+    "id": "wiki_rag",
+    "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+    "user_request": "总结这篇文章的核心内容，重点关注技术原理",
+    "min_summary_chars": 40,
+    "min_key_points_chars": 80
+  },
+  {
+    "id": "wiki_llm",
+    "url": "https://en.wikipedia.org/wiki/Large_language_model",
+    "user_request": "总结一下大语言模型的定义和发展",
+    "min_summary_chars": 40,
+    "min_key_points_chars": 80
+  },
+  {
+    "id": "wiki_transformer",
+    "url": "https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)",
+    "user_request": "总结 Transformer 架构的关键设计",
+    "min_summary_chars": 40,
+    "min_key_points_chars": 80
+  },
+  {
+    "id": "python_whatsnew_312",
+    "url": "https://docs.python.org/3/whatsnew/3.12.html",
+    "user_request": "总结 Python 3.12 的主要新特性",
+    "min_summary_chars": 40,
+    "min_key_points_chars": 80
+  }
+]

@@ -1,0 +1,260 @@
+{
+  "schema_version": "public-evidence-demo-fixture/v1",
+  "normalized_request": {
+    "user_request": "比较两个虚构队列系统的恢复能力"
+  },
+  "research_plan": {
+    "research_type": "comparison",
+    "subjects": [
+      "AlphaQueue",
+      "BetaQueue"
+    ],
+    "comparison_axes": [
+      "恢复能力"
+    ],
+    "sections": [
+      {
+        "id": "sec_00",
+        "title": "00_总览",
+        "questions": []
+      },
+      {
+        "id": "sec_01",
+        "title": "01_恢复能力",
+        "purpose": "比较恢复机制及已知限制",
+        "questions": [
+          {
+            "id": "q_recovery",
+            "text": "两个系统如何恢复，限制是什么？",
+            "answer_contract_level": "hard",
+            "comparison_axis_mode": "single_axis"
+          }
+        ]
+      },
+      {
+        "id": "sec_99",
+        "title": "来源索引",
+        "questions": []
+      }
+    ]
+  },
+  "question_states": [
+    {
+      "section_id": "sec_01",
+      "question_id": "q_recovery",
+      "question": "两个系统如何恢复，限制是什么？",
+      "purpose": "比较恢复机制及已知限制",
+      "answer_contract_level": "hard",
+      "status": "sufficient",
+      "min_sources": 2,
+      "criteria": [
+        {
+          "criterion_id": "crit_mechanism",
+          "description": "说明两个系统的恢复机制",
+          "level": "hard",
+          "status": "covered",
+          "evidence_ids": [
+            "ev_alpha_checkpoint",
+            "ev_beta_snapshot"
+          ]
+        },
+        {
+          "criterion_id": "crit_limit",
+          "description": "说明恢复限制",
+          "level": "hard",
+          "status": "covered",
+          "evidence_ids": [
+            "ev_alpha_partition"
+          ]
+        }
+      ],
+      "comparison_cells": [
+        {
+          "cell_id": "cell_alpha_recovery",
+          "subject": "AlphaQueue",
+          "axis": "恢复能力",
+          "status": "covered",
+          "evidence_ids": [
+            "ev_alpha_checkpoint",
+            "ev_alpha_partition"
+          ]
+        },
+        {
+          "cell_id": "cell_beta_recovery",
+          "subject": "BetaQueue",
+          "axis": "恢复能力",
+          "status": "covered",
+          "evidence_ids": [
+            "ev_beta_snapshot"
+          ]
+        }
+      ],
+      "coverage": {
+        "sufficient": true,
+        "coverage_status": "covered",
+        "checks": {
+          "source_floor": true
+        },
+        "source_count": 2,
+        "source_floor_target": 2,
+        "source_floor_mode": "source_identity"
+      }
+    }
+  ],
+  "selected_chunks": [
+    {
+      "id": "chunk_alpha",
+      "text": "AlphaQueue 会从最近一次确认的检查点恢复。网络分区期间尚未确认的消息不会被自动恢复。",
+      "source_url": "https://alpha.example/recovery",
+      "source_title": "AlphaQueue 恢复说明"
+    },
+    {
+      "id": "chunk_beta",
+      "text": "BetaQueue 每五分钟创建一次快照，并从最近快照重新加载。",
+      "source_url": "https://beta.example/recovery",
+      "source_title": "BetaQueue 恢复说明"
+    }
+  ],
+  "evidence_map": [
+    {
+      "id": "ev_alpha_checkpoint",
+      "chunk_id": "chunk_alpha",
+      "section_id": "sec_01",
+      "question_id": "q_recovery",
+      "criterion_ids": [
+        "crit_mechanism"
+      ],
+      "subject": "AlphaQueue",
+      "comparison_axis": "恢复能力",
+      "matrix_cell_id": "cell_alpha_recovery",
+      "claim_cluster_id": "cluster_alpha_checkpoint",
+      "atomic_claim": "AlphaQueue 从最近确认的检查点恢复。",
+      "claim": "AlphaQueue 从最近确认的检查点恢复。",
+      "cleaned_quote": "AlphaQueue 会从最近一次确认的检查点恢复。",
+      "raw_quote": "AlphaQueue 会从最近一次确认的检查点恢复。",
+      "evidence_text": "AlphaQueue 会从最近一次确认的检查点恢复。",
+      "source_url": "https://alpha.example/recovery",
+      "source_title": "AlphaQueue 恢复说明",
+      "source_type": "official_docs",
+      "admission_status": "accepted",
+      "support_relation": "direct_support",
+      "target_fit": "exact_target",
+      "scope": "domain_specific",
+      "claim_type": "direct_fact",
+      "stance": "support",
+      "grounded_exactly": true,
+      "directness_score": 1.0,
+      "evidence_score": 0.95,
+      "authority_score": 0.9
+    },
+    {
+      "id": "ev_beta_snapshot",
+      "chunk_id": "chunk_beta",
+      "section_id": "sec_01",
+      "question_id": "q_recovery",
+      "criterion_ids": [
+        "crit_mechanism"
+      ],
+      "subject": "BetaQueue",
+      "comparison_axis": "恢复能力",
+      "matrix_cell_id": "cell_beta_recovery",
+      "claim_cluster_id": "cluster_beta_snapshot",
+      "atomic_claim": "BetaQueue 每五分钟创建快照并从最近快照加载。",
+      "claim": "BetaQueue 每五分钟创建快照并从最近快照加载。",
+      "cleaned_quote": "BetaQueue 每五分钟创建一次快照，并从最近快照重新加载。",
+      "raw_quote": "BetaQueue 每五分钟创建一次快照，并从最近快照重新加载。",
+      "evidence_text": "BetaQueue 每五分钟创建一次快照，并从最近快照重新加载。",
+      "source_url": "https://beta.example/recovery",
+      "source_title": "BetaQueue 恢复说明",
+      "source_type": "official_docs",
+      "admission_status": "accepted",
+      "support_relation": "direct_support",
+      "target_fit": "exact_target",
+      "scope": "domain_specific",
+      "claim_type": "direct_fact",
+      "stance": "support",
+      "grounded_exactly": true,
+      "directness_score": 1.0,
+      "evidence_score": 0.95,
+      "authority_score": 0.9
+    },
+    {
+      "id": "ev_alpha_partition",
+      "chunk_id": "chunk_alpha",
+      "section_id": "sec_01",
+      "question_id": "q_recovery",
+      "criterion_ids": [
+        "crit_limit"
+      ],
+      "subject": "AlphaQueue",
+      "comparison_axis": "恢复能力",
+      "matrix_cell_id": "cell_alpha_recovery",
+      "claim_cluster_id": "cluster_alpha_partition",
+      "atomic_claim": "AlphaQueue 不自动恢复网络分区期间未确认的消息。",
+      "claim": "AlphaQueue 不自动恢复网络分区期间未确认的消息。",
+      "cleaned_quote": "网络分区期间尚未确认的消息不会被自动恢复。",
+      "raw_quote": "网络分区期间尚未确认的消息不会被自动恢复。",
+      "evidence_text": "网络分区期间尚未确认的消息不会被自动恢复。",
+      "source_url": "https://alpha.example/recovery",
+      "source_title": "AlphaQueue 恢复说明",
+      "source_type": "official_docs",
+      "admission_status": "accepted",
+      "support_relation": "direct_support",
+      "target_fit": "exact_target",
+      "scope": "domain_specific",
+      "claim_type": "direct_fact",
+      "stance": "limitation",
+      "quality_flags": [
+        "limitation"
+      ],
+      "grounded_exactly": true,
+      "directness_score": 1.0,
+      "evidence_score": 0.95,
+      "authority_score": 0.9
+    }
+  ],
+  "frozen_writer_output": {
+    "documents": [
+      {
+        "section_id": "sec_01",
+        "title": "01_恢复能力",
+        "content": "AlphaQueue 从最近确认的检查点恢复[1]。BetaQueue 每五分钟创建快照，并从最近快照加载[2]。网络分区期间，AlphaQueue 不自动恢复尚未确认的消息[1]。从这些事实可见，两者都提供恢复机制，但恢复粒度与限制不同。",
+        "evidence_refs": [
+          "ev_alpha_checkpoint",
+          "ev_beta_snapshot",
+          "ev_alpha_partition"
+        ],
+        "claim_ledger": [
+          {
+            "text": "AlphaQueue 从最近确认的检查点恢复。",
+            "cited_span": "AlphaQueue 从最近确认的检查点恢复",
+            "evidence_ids": [
+              "ev_alpha_checkpoint"
+            ],
+            "claim_type": "fact"
+          },
+          {
+            "text": "BetaQueue 每五分钟创建快照，并从最近快照加载。",
+            "cited_span": "BetaQueue 每五分钟创建快照，并从最近快照加载",
+            "evidence_ids": [
+              "ev_beta_snapshot"
+            ],
+            "claim_type": "fact"
+          },
+          {
+            "text": "网络分区期间，AlphaQueue 不自动恢复尚未确认的消息。",
+            "cited_span": "网络分区期间，AlphaQueue 不自动恢复尚未确认的消息",
+            "evidence_ids": [
+              "ev_alpha_partition"
+            ],
+            "claim_type": "fact"
+          }
+        ]
+      }
+    ],
+    "report_document": {
+      "title": "虚构队列恢复能力演示",
+      "content": "# 虚构队列恢复能力演示\n\nAlphaQueue 从最近确认的检查点恢复[1]。BetaQueue 每五分钟创建快照，并从最近快照加载[2]。网络分区期间，AlphaQueue 不自动恢复尚未确认的消息[1]。从这些事实可见，两者都提供恢复机制，但恢复粒度与限制不同。\n\n## 来源\n\n[1] AlphaQueue 恢复说明\n[2] BetaQueue 恢复说明"
+    }
+  }
+}

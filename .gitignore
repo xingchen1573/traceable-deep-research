@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env*
+!/.env.example
+!**/.env.example
+!/.env.*.example
+!**/.env.*.example
+
+# Logs & runtime data
+/logs/
+/backups/
+/.bug-states/
+/memory/
+/lightrag_workspaces/
+/data/
+/knowledge_base/
+/demo_workspace/
+
+# Confirmed local-only personal documents
+/docs/interview/
+
+# Frontend dependencies & local state
+node_modules/
+.vite_pid
+*.pid
+
+# Local databases & coverage
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+.coverage*
+coverage/
+htmlcov/
+coverage.xml
+
+# Caches & local generated state
+.pytest_cache/
+.pycache_check/
+.DS_Store
+.claude/settings.local.json
+.claude/*.lock
+
+# Temporary diagnostics & editor backups
+/dome.py
+/scripts/_tmp_*.py
+/scripts/_watchdog_loop.sh
+*.bak
+*.tmp
+*.orig
+*~
+
+# IDE
+.idea/
+.vscode/
+*.swp

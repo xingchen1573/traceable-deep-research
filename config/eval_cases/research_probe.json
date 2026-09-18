@@ -1,0 +1,62 @@
+[
+  {
+    "id": "single_explain_harness",
+    "case_version": 2,
+    "kind": "single_explain",
+    "title": "Harness Engineering 宽泛解释型",
+    "user_request": "调研一下 Harness Engineering，讲清楚它是什么、核心工作方式，以及团队通常怎样实践，整理成一份中文报告并附上来源。",
+    "strategy": "standard",
+    "depth": "normal",
+    "core_intents": ["解释 Harness Engineering 的定义与定位", "说明关键机制", "给出可理解的实操路径"],
+    "optional_topics": ["具体厂商案例", "量化效果数据"],
+    "scope_notes": "重点判断是否把循环工程讲清楚，不要求穷尽所有框架和实现细节。"
+  },
+  {
+    "id": "single_deep_lightrag",
+    "case_version": 2,
+    "kind": "single_deep",
+    "title": "LightRAG 深挖型",
+    "user_request": "深入调研一下 LightRAG，重点讲清整体架构、检索机制、适合哪些场景以及主要限制，整理成中文报告并附上来源。",
+    "strategy": "standard",
+    "depth": "deep",
+    "core_intents": ["解释 LightRAG 的整体架构", "说明主要检索机制", "分析适用场景和限制"],
+    "optional_topics": ["完整安装教程", "所有版本历史", "与全部 RAG 框架对比"],
+    "scope_notes": "深度体现在机制解释和适用边界，不要求形成项目维护审计清单。"
+  },
+  {
+    "id": "dual_compare_lightrag_graphrag",
+    "case_version": 2,
+    "kind": "dual_compare",
+    "title": "LightRAG vs GraphRAG 对比",
+    "user_request": "对比调研一下 LightRAG 和 GraphRAG，重点说明架构、检索流程、适用场景和局限分别有什么差异，给出有来源的中文报告。",
+    "strategy": "hv_analysis",
+    "depth": "normal",
+    "core_intents": ["逐项比较两者架构", "比较检索流程", "说明适用场景和主要局限"],
+    "optional_topics": ["性能基准", "社区活跃度", "完整迁移步骤"],
+    "scope_notes": "必须保持双向对比，但公开资料缺少统一基准时可以明确说明，不把基准缺失判为整体失败。"
+  },
+  {
+    "id": "multi_compare_deep_research_tools",
+    "case_version": 2,
+    "kind": "multi_compare",
+    "title": "Deep Research 工具对比",
+    "user_request": "调研并比较 Elicit、Perplexity 和 Gemini Deep Research，主要看看它们在证据引用、报告生成和适用场景上有什么差异，整理成有来源的中文报告。",
+    "strategy": "hv_analysis",
+    "depth": "normal",
+    "core_intents": ["比较三种工具的证据引用能力", "比较报告生成方式", "说明各自适用场景"],
+    "optional_topics": ["价格细节", "全部地区可用性", "长期市场份额"],
+    "scope_notes": "优先形成有依据的选型认识，不要求覆盖每项商业套餐和短期活动信息。"
+  },
+  {
+    "id": "uncertainty_agentic_coding",
+    "case_version": 2,
+    "kind": "uncertainty",
+    "title": "Agentic Coding 争议型",
+    "user_request": "调研一下 Claude Code、Codex 和 Cursor 在智能体编程工作流中的定位、主要差异和争议点。无法确定的地方请明确说明，并附上来源。",
+    "strategy": "hv_analysis",
+    "depth": "normal",
+    "core_intents": ["说明三种工具在 agentic coding workflow 中的定位", "比较主要差异", "呈现争议和不确定性"],
+    "optional_topics": ["完整性能排行榜", "所有版本更新", "单一赢家结论"],
+    "scope_notes": "允许保留不确定结论，不要求在证据不足时强行给出统一排名。"
+  }
+]

@@ -1,0 +1,17 @@
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+
+# Local Vite configuration
+.env*
+!.env.example
+!.env.*.example
+.vite_pid
+*.pid
+
+# Local/editor state
+.DS_Store
+*.swp
+*.tmp
+*.bak

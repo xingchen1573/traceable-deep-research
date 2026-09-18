@@ -1,0 +1,1 @@
+export { ResearchStudioPage } from './ResearchStudioPage';

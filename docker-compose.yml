@@ -1,0 +1,62 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "24680:24680"
+    volumes:
+      - ./.env:/app/.env:ro
+      - kb_data:/app/knowledge_base
+      - lightrag_data:/app/lightrag_workspaces
+      - app_data:/app/data
+      - memory_data:/app/memory
+      - logs_data:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:24680/api/v1/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  feishu-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command: ["python", "scripts/run_feishu_ws_worker.py"]
+    environment:
+      FEISHU_WS_HEARTBEAT_PATH: ${FEISHU_WS_HEARTBEAT_PATH:-/app/data/feishu_ws_heartbeat.txt}
+    volumes:
+      - ./.env:/app/.env:ro
+      - kb_data:/app/knowledge_base
+      - lightrag_data:/app/lightrag_workspaces
+      - app_data:/app/data
+      - memory_data:/app/memory
+      - logs_data:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "scripts/feishu_ws_healthcheck.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      - backend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  kb_data:
+  lightrag_data:
+  app_data:
+  memory_data:
+  logs_data:
