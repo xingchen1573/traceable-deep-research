@@ -4,7 +4,7 @@
 >
 > 创建日期：2026-09-07
 >
-> 最后核对日期：2026-09-07
+> 最后核对日期：2026-09-18
 >
 > 当前事实来源：`main.py`、`backend/`、`frontend/`、`tools/`、`scripts/run_feishu_ws_worker.py`、Docker/Compose 配置与相关测试
 >
@@ -12,9 +12,9 @@
 
 ## 1. 文档职责
 
-本文说明当前代码实际采用的运行组件、依赖方向、主要数据流和状态边界。它不描述目标产品愿景，不复制部署步骤，也不把历史设计文档当作现行接口规范。
+本文说明当前代码实际采用的运行组件、依赖方向、主要数据流和状态边界。它不复制部署步骤，也不把历史设计文档当作现行接口规范。
 
-产品愿景、后续路线、生产部署操作和模块历史保留在 Private 开发仓库；本公开文档只描述随候选快照提供的当前代码与本地运行边界。
+调研阶段的判断与数据流见[研究管线](./RESEARCH_PIPELINE.md)，归档、索引与范围问答见[知识生命周期](./KNOWLEDGE_LIFECYCLE.md)，运行事件、checkpoint 和隔离 replay 见[可观测性与回放](./OBSERVABILITY_AND_REPLAY.md)。
 
 ## 2. 运行组件
 
@@ -147,7 +147,7 @@ HTTP 与 WS 共用业务处理逻辑。当前去重只保存 seen message ID，�
 | 通用观测日志 | `logs/` | 不作为当前代码事实，不进入 Git |
 | 记忆与复盘状态 | `memory/` | 个人运行数据，不进入 Git 或镜像 |
 | 评测用例合同 | `config/eval_cases/` | 可进入 Git，结果解释需结合版本和哈希 |
-| 评测报告 | Private 开发仓库的 `docs/evaluations/` | 历史证据与二级索引不随 Public 候选分发；Public 只保留评测方法、选定测试和脱敏摘要 |
+| 评测报告 | 开发仓库的 `docs/evaluations/` | 原始记录按样本和日期保存；作品快照提供[评测方法](./EVALUATION.md)与[脱敏验证摘要](./VALIDATION_EVIDENCE.md) |
 
 ## 6. 进程与一致性边界
 

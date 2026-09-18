@@ -1,82 +1,91 @@
-<h1 align="center">Deep Research</h1>
+# Deep Research
 
-<p align="center">
-  <strong>先确认研究计划，再生成可追溯报告，最后沉淀为可问答、可回顾的个人技术知识库。</strong>
-</p>
+**以证据为核心的个人深度调研与知识复用系统**
 
-<p align="center">
-  Web / 飞书 · 证据追溯 · 人工确认 · 知识复用
-</p>
+先确认研究计划，再围绕问题检索、抽取和验收 Evidence；报告中的引用可以回到原始片段，确认后的成果继续进入个人知识库、范围问答与飞书回顾。
 
-<p align="center">
-  <a href="#使用流程">使用流程</a> ·
-  <a href="#核心设计">核心设计</a> ·
-  <a href="#真实运行">真实运行</a> ·
-  <a href="#快速开始">快速开始</a> ·
-  <a href="#使用范围与边界">使用边界</a>
-</p>
+个人独立开发 · `Python 3.12` · `FastAPI` · `LangGraph` · `React` · `TypeScript` · `LightRAG` · `SQLite`
 
-![Deep Research：从计划确认、证据阅读到知识复用](./docs/assets/readme/product-overview.svg)
+[产品闭环](#产品闭环) · [架构与关键机制](#架构与关键机制) · [验证证据](#验证证据) · [快速开始](#快速开始) · [文档地图](#文档地图)
 
-<p align="center"><sub>基于当前产品界面与真实工作流绘制，内容为脱敏演示。</sub></p>
+![Deep Research 调研结果与质量总览](docs/assets/readme/research-quality-overview.png)
 
-Deep Research 面向 AI 与软件技术学习中“检索分散、结论难核验、成果难复用”的问题，将研究规划、多源检索、证据写作和知识管理串成完整流程。报告不只是一次回答，还能在确认归档后用于限定范围的问答与飞书知识卡回顾。
+> 当前 Frontend 的脱敏截图，使用合成 Mock 数据生成；它展示真实交互和信息结构，不冒充一次外部检索结果。
 
-## 使用流程
+## 产品闭环
 
-**提出主题 → 确认计划 → 后台调研 → 阅读报告与证据 → 确认归档 → 范围问答 / 飞书回顾**
+```text
+提出研究主题
+  -> 审阅并确认研究计划
+  -> 按问题检索、抓取、抽取 Evidence
+  -> 检查问题与标准是否得到足够支持
+  -> 按章节组织证据并生成报告
+  -> 核验引用、声明支持性与整体质量
+  -> 人工确认归档
+  -> 按知识库 / Theme / ResearchItem 问答与回顾
+```
 
-Research Studio 用于审阅计划与跟踪任务；Evidence Reader 支持从报告引用回查来源和证据；Knowledge Workspace 按知识库、主题和研究条目组织成果。另支持单 URL 快速简报，默认不进入知识归档。
+这条链路刻意把“找到资料”“形成结论”和“是否值得归档”分开。研究阶段保留来源、Chunk、Quote、Evidence 和问题覆盖；启用 Research Audit 后还会旁路记录模型调用血缘。写作阶段只消费已经准入并分配到对应章节的 Evidence；最终是否进入长期知识库仍由用户确认。
 
-## 核心设计
+调研工作台把计划、问题闭环、对比矩阵、证据台账、报告和质量结果放在同一任务视图中。Evidence Reader 可以从正文引用回查 Evidence 与来源；比较型研究同时保留对象 × 维度的覆盖矩阵。计划确认界面与完整执行链见[研究管线](docs/RESEARCH_PIPELINE.md)。
 
-- **Agent 协作与计划契约**：基于 LangGraph 的 Main Agent 调用工具或委派仓库分析、知识管理等专用 Agent，KB QA Agent 经渠道路由独立承接问答。Plan-first 将用户确认的结构化计划经完整性校验后提交至后台 Research Job，由 Question Loop 执行默认研究流程。
-- **共享材料，按问题收敛**：任务级来源池统一去重抓取、共享正文；各问题独立抽取可回溯的 `Claim + Quote`，根据完成判据、覆盖缺口、比较矩阵与预算决定补查或停止。
-- **证据写作与分层核验**：章节模型并行写作，预校验声明进入 Claim Bank，再由 Editorial 串行生成摘要与结论。针对自动互改不稳定收敛，取消默认返修闭环，将支持性核验、章节质量诊断与程序检查分开，最终由用户确认归档。
-- **知识正本与索引分离**：Markdown、目录与 manifest 保存报告、证据血缘和知识层级，SQLite 保存任务与会话等运行状态；每个 ResearchItem 建立可重建的 LightRAG 索引，支持知识库、主题或单条研究范围的问答。
+![Deep Research 对比证据矩阵与证据台账](docs/assets/readme/research-evidence-matrix.png)
 
-查看 [整体架构](./docs/ARCHITECTURE.md)，或从 [研究编排](./backend/research/orchestrator.py)、[证据写作](./backend/research/writer.py) 和 [知识索引](./backend/services/index_service.py) 进入实现。
+## 架构与关键机制
 
-## 真实运行
+![Deep Research 证据驱动多 Agent 学习系统架构](docs/assets/deep-research-architecture.svg)
 
-在 **2026-09-10 的受控本地快照**中，个人知识库包含 **44 个**状态为 `active` 的 ResearchItem，其独立索引 **44/44** 均为 `ready`。
-
-同日，以“多 Agent 并行协作中的共享状态一致性”为题，完成一次受控端到端验证：
-
-| 环节 | 本次样本结果 |
+| 层次 | 当前职责 |
 | --- | --- |
-| 调研与核验 | 产出 4 份 Markdown、11 个来源和 83 条 Evidence；Quality Gate 与 Validation 通过 |
-| 归档与复用 | 人工确认归档、独立索引就绪；Theme 范围问答返回答案及 4 条引用 |
-| 飞书知识卡 | 2 次受控真实发送，验证轮换选材与成功后游标推进 |
+| Plan First 与 HITL | Planner 生成结构化研究计划；用户确认后才创建 Research Job，避免系统在目标未对齐时直接长跑 |
+| Question Loop | 以研究问题为执行单元，共享任务级来源池与抓取正文；根据 Coverage（覆盖判断）缺口决定继续检索或停止 |
+| Evidence Contract | Evidence 同时保存可概括的 `atomic_claim` 与来自 Chunk 的 `Quote`；准入、适用问题和覆盖标准保持可追溯 |
+| Evidence-native E+ Writer（证据直写） | 确定性 Context Manager 按章节、问题、标准、主体和比较维度组织 Evidence；章节并行写作，Editorial（统稿）只组合已验证的章节声明 |
+| Validation 与 Quality Gate | 程序检查引用结构，模型检查 cited span 与 Evidence 的支持关系，Critic 诊断报告质量；`[待核实]` 是人工提示，不替代最终阅读 |
+| Knowledge Lifecycle | 用户确认后原子归档为 ResearchItem；Markdown 与 manifest 是知识正本，每个 ResearchItem 建立可重建的独立 LightRAG 索引 |
+| Scope QA 与回顾 | KnowledgeScope 可以限定到知识库、Theme 或单个 ResearchItem；同一范围也可用于飞书知识卡轮换 |
+| Audit 与 Replay | Research Audit 默认关闭；启用后 checkpoint 与 model call 可交叉定位，artifact 和 parse event 保留关联引用；单次调用可在冻结输入上隔离回放，不重跑搜索或写正式状态 |
 
-以上是从内部运行账本提取的脱敏摘要。原始 Job 产物、Provider 诊断和消息标识不随公开候选快照分发。这次样本验证了功能链路，不代表长期稳定性；飞书发送为受控触发，尚未验证自然时间窗调度。
+当前默认写作主链不依赖 Finding 文本。研究阶段完成证据准入和 Coverage，写作阶段直接消费结构化 Evidence；这样减少一个模型中间表示，同时保留引用、验证与人工确认边界。完整流程见[研究管线](docs/RESEARCH_PIPELINE.md)。
 
-## 确定性证据演示
+知识正本、索引与范围问答的关系见[知识生命周期](docs/KNOWLEDGE_LIFECYCLE.md)，checkpoint 和隔离回放边界见[可观测性与回放](docs/OBSERVABILITY_AND_REPLAY.md)。
 
-下面的演示使用完全合成的 Plan、Chunk、Evidence 和冻结写作结果，实际执行 Evidence 追溯、章节研究清单、上下文选择、引用结构校验和 Citation Reader 映射；它不读取 `.env`，不调用模型或网络，也不写数据库与知识库：
+## 验证证据
+
+以下结果均绑定到明确日期和样本，详细口径、限制和不可外推边界见[公开验证证据摘要](docs/VALIDATION_EVIDENCE.md)。
+
+| 验证 | 结果摘要 | 能证明什么 |
+| --- | --- | --- |
+| 五类 Deep Research 全链路 | 修复通用 Planner 合同问题后完成 5 / 5；247 个带引用声明中 Validator 判定 231 个受支持 | E+ 能覆盖五类研究请求并完成最终引用核验；93.52% 是模型判定，不是人工真值 |
+| 最终报告人工复核 | 2 篇可直接交付，2 篇可用但需保留来源提醒，1 篇为明确披露缺口的阶段性报告 | 自动 Gate 5 / 5 不等于五篇质量完全相同 |
+| 最小完整系统 smoke | 4 份 Markdown、11 个来源、83 条 Evidence；归档、独立索引、Theme QA 与两次受控知识卡发送完成 | 调研结果可以进入知识复用闭环；不证明长期无人值守可靠性 |
+| 审计与回放验收 | 18 个聚焦审计测试与 398 个相关回归通过 | checkpoint 与 model call 可交叉定位，生产 parser 可在冻结输入上隔离回放 |
+| 代码与零凭证演示验收 | 完整非 live Python 1396 passed / 6 skipped；独立作品快照 Python 329 passed；Frontend 62 / 62 tests | 首份冻结快照的代码、测试、容器与零凭证 demo 均通过；本轮内容更新后需重新验收 |
+
+五类全链路没有运行正式 Holdout。自动语义验证可能漏检或偏严，未引用的分析也不因此自动成为事实；本项目把引用回查、透明 marker 和人工确认保留在最终交付链上。
+
+## 零凭证演示
+
+仓库提供一条完全合成、确定性的 Evidence 演示。它复用正式的章节研究清单、Context Manager 和引用结构校验，并用演示专用映射展示来源与 Evidence 的关系；它不读取 `.env`，不调用模型或网络，也不写数据库与知识库：
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/demo_public_evidence_pipeline.py
 ```
 
-输出中的 `input_sha256`、`packet_hash` 和 `output_sha256` 用于复核相同输入是否得到相同结果。该演示只证明确定性血缘与引用结构成立，不证明正文的完整语义都被引用支持。真实报告还会经过模型式 Claim Entailment（声明支撑判断）、Critic（质量审查）和人工阅读；这些判断仍可能漏检，不能把自动 `passed` 当成绝对正确。
+输出会记录 `input_sha256`、`packet_hash` 和 `output_sha256`。相同输入应得到相同结果；这证明 Evidence 血缘和引用结构可重复，不证明合成正文之外的事实正确性。
 
 ## 快速开始
 
-推荐开发环境：**Python 3.12、Node.js 20 与 npm**。
-
-本地优先不等于完全离线：实际调研需要模型、Embedding、搜索或抓取服务，可能产生费用并向相应服务发送所需上下文。请按 [配置说明](./docs/CONFIGURATION.md) 填写本地配置；真实飞书发送与主动推送默认关闭。
-
-### 安装与配置
-
-在仓库根目录执行：
+需要 Python 3.12、Node.js 20 和 npm。
 
 ```bash
+git clone https://github.com/xingchen1573/traceable-deep-research.git
+cd traceable-deep-research
+
 python3.12 -m venv .venv
 .venv/bin/python -m pip install --upgrade pip
 .venv/bin/python -m pip install -r requirements.txt
 
-# 仅首次安装时复制；已有配置请勿覆盖
 cp .env.example .env
 cp frontend/.env.example frontend/.env.local
 
@@ -85,35 +94,35 @@ npm ci
 cd ..
 ```
 
-### 启动
-
-终端一，启动 Backend：
+启动 Backend：
 
 ```bash
 .venv/bin/python -m uvicorn backend.app:app --host 127.0.0.1 --port 24680
 ```
 
-终端二，启动 Frontend：
+另开终端启动 Frontend：
 
 ```bash
 cd frontend
 npm run dev:real
 ```
 
-访问 `http://127.0.0.1:24681`。新 clone 不包含维护者的个人知识库和运行数据。
+访问 <http://127.0.0.1:24681>。真实调研还需要自行配置模型、Embedding、搜索或抓取服务；可能产生费用，并向相应服务发送完成任务所需的上下文。配置项与默认关闭的外部写入见[配置说明](docs/CONFIGURATION.md)。
 
-CLI、飞书 Worker、Docker 边界与无真实发送验证命令见 [开发指南](./docs/DEV_SETUP.md)。
+## 文档地图
 
-## 使用范围与边界
+- [系统架构](docs/ARCHITECTURE.md)：运行组件、依赖方向、进程与状态边界
+- [研究管线](docs/RESEARCH_PIPELINE.md)：从计划、Question Loop、Evidence 到 E+ 写作与最终核验
+- [知识生命周期](docs/KNOWLEDGE_LIFECYCLE.md)：ResearchItem、原子归档、独立索引、Scope QA 与回顾
+- [可观测性与回放](docs/OBSERVABILITY_AND_REPLAY.md)：事件、checkpoint、artifact、lineage 与隔离 replay
+- [公开验证证据](docs/VALIDATION_EVIDENCE.md)：全链路、完整系统 smoke、审计与 Public 候选的限定结果
+- [评测方法](docs/EVALUATION.md)：测试层次、副作用、基线和发布判据
+- [开发指南](docs/DEV_SETUP.md)与[配置说明](docs/CONFIGURATION.md)：安装、运行和外部依赖
+- [第三方声明](THIRD_PARTY_NOTICES.md)：随仓库分发的第三方组件与许可证
 
-当前面向**本地单用户或受控小范围使用**：
+## 当前边界
 
-- **访问安全**：尚无全局应用访问鉴权，不应将 Backend 或未正确验签的 Webhook 暴露到不可信公网。密钥、个人知识、索引、SQLite、Trace 与日志不属于公共源码。
-- **任务与推送**：Research Job 由后台线程执行，不支持从任意阶段自动续跑；Push Scheduler 依附 Backend、默认关闭，尚无持久投递保障和故障接管。
-- **验证范围**：尚未完成多实例、多频道并发及长期无人值守验证；进程健康检查不等于业务链路可用。
-
-本仓库公开后仍属于源码展示，不等同于开源授权。除 [GitHub 服务条款](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) 对公开仓库在 GitHub 服务内查看、使用、展示和 fork 所授予的权利，以及 [第三方组件](./THIRD_PARTY_NOTICES.md) 各自的许可证外，当前未另行授予修改或再分发 Deep Research 项目代码的许可。首次公开前仍须完成候选仓库全部 Git 历史、分支、标签和 Actions 日志的敏感信息复核。
-
-## 文档
-
-[架构](./docs/ARCHITECTURE.md) · [开发](./docs/DEV_SETUP.md) · [配置](./docs/CONFIGURATION.md) · [评测方法](./docs/EVALUATION.md) · [第三方声明](./THIRD_PARTY_NOTICES.md)
+- 当前适合本地单用户或受控小范围使用；Backend 没有全局应用访问鉴权，不应直接暴露到不可信公网。
+- Research Job 仍由进程内后台线程执行；checkpoint 支持审计和局部回放，但不等于进程退出后可以从任意阶段自动续跑。
+- Scheduler 依附 Backend 且默认关闭，没有独立 lease、可靠 outbox 或多实例故障接管。
+- 新 clone 不包含维护者的知识库、索引、运行日志、模型调用记录或外部服务凭证。

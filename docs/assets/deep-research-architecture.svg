@@ -1,0 +1,287 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100" role="img" aria-labelledby="diagram-title diagram-desc">
+  <title id="diagram-title">Deep Research 证据驱动多 Agent 学习系统架构</title>
+  <desc id="diagram-desc">从 Web、CLI 主 Agent 与飞书进入，经计划确认、共享多轮检索、Evidence-native 写作、人工归档，最终形成可问答和可推送的 ResearchItem 知识资产；单 URL 简报为独立短链。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#667085"/>
+    </marker>
+    <marker id="arrow-indigo" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4F46E5"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#C66A00"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#168A52"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; fill: #172033; }
+      .title { font-size: 34px; font-weight: 750; }
+      .subtitle { font-size: 16px; fill: #667085; }
+      .eyebrow { font-size: 13px; font-weight: 700; fill: #475467; }
+      .band-title { font-size: 19px; font-weight: 750; }
+      .band-sub { font-size: 12px; fill: #667085; }
+      .box-title { font-size: 15px; font-weight: 700; }
+      .box-sub { font-size: 12px; fill: #667085; }
+      .tiny { font-size: 11px; fill: #667085; }
+      .lane { stroke-width: 1.3; }
+      .box { fill: #FFFFFF; stroke-width: 1.25; rx: 8; }
+      .connector { fill: none; stroke: #667085; stroke-width: 1.7; }
+      .arrow { fill: none; stroke: #667085; stroke-width: 1.7; marker-end: url(#arrow); }
+      .feedback { fill: none; stroke-width: 1.6; stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1100" fill="#F7F8FA"/>
+
+  <text x="60" y="52" class="title">Deep Research · 证据驱动多 Agent 学习系统</text>
+  <text x="60" y="82" class="subtitle">Plan-first 约束执行 · Job 级共享检索 · Claim–Quote 双层 Evidence · Evidence-native 写作 · 人工归档与长期复用</text>
+  <text x="1740" y="50" text-anchor="end" class="eyebrow">SYSTEM ARCHITECTURE</text>
+  <text x="1740" y="76" text-anchor="end" class="tiny">当前默认主链与边界</text>
+
+  <!-- L1: entry and routing -->
+  <rect x="60" y="108" width="1680" height="102" rx="8" fill="#EEF2FF" stroke="#C7D2FE" class="lane"/>
+  <rect x="60" y="108" width="8" height="102" fill="#4F46E5"/>
+  <text x="86" y="137" class="band-title" fill="#3730A3">L1 · 接入与任务分流</text>
+  <text x="86" y="161" class="band-sub">Web / CLI / 飞书复用领域服务</text>
+  <text x="86" y="180" class="band-sub">深度调研与单 URL 明确分流</text>
+
+  <rect x="300" y="131" width="142" height="52" class="box" stroke="#A5B4FC"/>
+  <text x="371" y="153" text-anchor="middle" class="box-title">Web</text>
+  <text x="371" y="171" text-anchor="middle" class="box-sub">Research Studio</text>
+
+  <rect x="470" y="131" width="170" height="52" class="box" stroke="#A5B4FC"/>
+  <text x="555" y="153" text-anchor="middle" class="box-title">CLI 主 Agent</text>
+  <text x="555" y="171" text-anchor="middle" class="box-sub">意图理解与工具派发</text>
+
+  <rect x="668" y="131" width="142" height="52" class="box" stroke="#A5B4FC"/>
+  <text x="739" y="153" text-anchor="middle" class="box-title">飞书</text>
+  <text x="739" y="171" text-anchor="middle" class="box-sub">WS Worker</text>
+
+  <path d="M371 183 V197 H830" class="connector"/>
+  <path d="M555 183 V197 H830" class="connector"/>
+  <path d="M739 183 V197 H830" class="connector"/>
+  <path d="M830 197 V157 H842" class="arrow"/>
+  <rect x="850" y="128" width="238" height="58" class="box" stroke="#818CF8"/>
+  <text x="969" y="151" text-anchor="middle" class="box-title">Request Router</text>
+  <text x="969" y="172" text-anchor="middle" class="box-sub">问答 / 多源调研 / 单 URL</text>
+
+  <path d="M1088 157 H1230" class="arrow"/>
+  <rect x="1238" y="128" width="245" height="58" class="box" stroke="#A5B4FC"/>
+  <text x="1360" y="151" text-anchor="middle" class="box-title">普通问答 / KB QA</text>
+  <text x="1360" y="172" text-anchor="middle" class="box-sub">限定 KnowledgeScope</text>
+
+  <!-- L2: plan-first -->
+  <rect x="60" y="236" width="1360" height="132" rx="8" fill="#E9F8F4" stroke="#A7DED0" class="lane"/>
+  <rect x="60" y="236" width="8" height="132" fill="#0F8A79"/>
+  <text x="86" y="265" class="band-title" fill="#0F766E">L2 · Plan-first 研究合同</text>
+  <text x="86" y="286" class="band-sub">先消除范围歧义，再让用户确认结构化计划；确认后的 authored_plan 直接驱动后台 Job</text>
+
+  <rect x="250" y="292" width="185" height="52" class="box" stroke="#72C7B5"/>
+  <text x="342" y="314" text-anchor="middle" class="box-title">轻量概念澄清</text>
+  <text x="342" y="333" text-anchor="middle" class="box-sub">Recon Context</text>
+
+  <rect x="470" y="292" width="205" height="52" class="box" stroke="#72C7B5"/>
+  <text x="572" y="314" text-anchor="middle" class="box-title">Planning Service</text>
+  <text x="572" y="333" text-anchor="middle" class="box-sub">一次结构化模型调用</text>
+
+  <rect x="710" y="292" width="195" height="52" class="box" stroke="#72C7B5"/>
+  <text x="807" y="314" text-anchor="middle" class="box-title">计划局部编辑</text>
+  <text x="807" y="333" text-anchor="middle" class="box-sub">keep / redo / add</text>
+
+  <rect x="940" y="292" width="205" height="52" class="box" stroke="#40A994"/>
+  <text x="1042" y="314" text-anchor="middle" class="box-title">HITL #1 · 计划确认</text>
+  <text x="1042" y="333" text-anchor="middle" class="box-sub">规范化 + 完整性 Token</text>
+
+  <rect x="1180" y="292" width="190" height="52" class="box" stroke="#40A994"/>
+  <text x="1275" y="314" text-anchor="middle" class="box-title">authored_plan</text>
+  <text x="1275" y="333" text-anchor="middle" class="box-sub">后台执行合同</text>
+
+  <path d="M435 318 H462" class="arrow"/>
+  <path d="M675 318 H702" class="arrow"/>
+  <path d="M905 318 H932" class="arrow"/>
+  <path d="M1145 318 H1172" class="arrow"/>
+  <path d="M1042 292 C1042 270 807 270 807 286" class="feedback" stroke="#0F8A79" marker-end="url(#arrow)"/>
+  <text x="916" y="278" text-anchor="middle" class="tiny" fill="#0F766E">修改意见</text>
+
+  <!-- single URL branch -->
+  <rect x="1450" y="236" width="290" height="174" rx="8" fill="#F4F0FF" stroke="#CFC3F4" class="lane"/>
+  <rect x="1450" y="236" width="8" height="174" fill="#7657C8"/>
+  <text x="1476" y="265" class="band-title" fill="#6546B8">独立短链 · Single URL</text>
+  <rect x="1478" y="286" width="234" height="64" class="box" stroke="#B9A8EA"/>
+  <text x="1595" y="309" text-anchor="middle" class="box-title">抓取 → 提炼 → 快速简报</text>
+  <text x="1595" y="332" text-anchor="middle" class="box-sub">绕过 Plan / Coverage / E+</text>
+  <text x="1595" y="378" text-anchor="middle" class="box-sub">直接交付；另行确认后才保存</text>
+  <path d="M1080 186 V220 H1435 V318 H1470" class="feedback" stroke="#7657C8" marker-end="url(#arrow)"/>
+
+  <!-- L3: research loop -->
+  <rect x="60" y="394" width="1360" height="252" rx="8" fill="#FFF7E8" stroke="#F0CF94" class="lane"/>
+  <rect x="60" y="394" width="8" height="252" fill="#D97706"/>
+  <text x="86" y="423" class="band-title" fill="#B45309">L3 · Job 级共享多轮检索</text>
+  <text x="86" y="444" class="band-sub">共享 Source / Material，问题级独立消费；Coverage 缺口和预算共同决定补查或停止</text>
+
+  <rect x="170" y="463" width="210" height="58" class="box" stroke="#E8B85F"/>
+  <text x="275" y="486" text-anchor="middle" class="box-title">Question Orchestrator</text>
+  <text x="275" y="507" text-anchor="middle" class="box-sub">有界问题级 Workers</text>
+
+  <rect x="410" y="463" width="165" height="58" class="box" stroke="#E8B85F"/>
+  <text x="492" y="486" text-anchor="middle" class="box-title">Gap Query</text>
+  <text x="492" y="507" text-anchor="middle" class="box-sub">来源发现</text>
+
+  <rect x="605" y="463" width="210" height="58" class="box" stroke="#E8B85F"/>
+  <text x="710" y="486" text-anchor="middle" class="box-title">任务级 Global Source Pool</text>
+  <text x="710" y="507" text-anchor="middle" class="box-sub">URL 规范化 / 去重 / 选择</text>
+
+  <rect x="845" y="463" width="210" height="58" class="box" stroke="#E8B85F"/>
+  <text x="950" y="486" text-anchor="middle" class="box-title">Fetch Chain + Material</text>
+  <text x="950" y="507" text-anchor="middle" class="box-sub">任务内唯一抓取与正文共享</text>
+
+  <rect x="1085" y="463" width="245" height="58" class="box" stroke="#E8B85F"/>
+  <text x="1207" y="486" text-anchor="middle" class="box-title">Chunk + Hybrid Ranker</text>
+  <text x="1207" y="507" text-anchor="middle" class="box-sub">词法 / Embedding / RRF / 来源分散</text>
+
+  <path d="M380 492 H402" class="arrow"/>
+  <path d="M575 492 H597" class="arrow"/>
+  <path d="M815 492 H837" class="arrow"/>
+  <path d="M1055 492 H1077" class="arrow"/>
+
+  <rect x="1025" y="548" width="305" height="62" class="box" stroke="#DFA448"/>
+  <text x="1177" y="571" text-anchor="middle" class="box-title">Evidence · Atomic Claim + Quote</text>
+  <text x="1177" y="592" text-anchor="middle" class="box-sub">Grounding / Subject / Axis / Criterion 准入</text>
+  <path d="M1207 521 V540" class="arrow"/>
+
+  <rect x="730" y="548" width="250" height="62" class="box" stroke="#DFA448"/>
+  <text x="855" y="571" text-anchor="middle" class="box-title">Coverage Judge</text>
+  <text x="855" y="592" text-anchor="middle" class="box-sub">硬 / 软 Criterion 与新颖性</text>
+  <path d="M1025 579 H988" class="arrow"/>
+
+  <rect x="430" y="548" width="255" height="62" class="box" stroke="#DFA448"/>
+  <text x="557" y="571" text-anchor="middle" class="box-title">Question State</text>
+  <text x="557" y="592" text-anchor="middle" class="box-sub">complete / partial / exhausted</text>
+  <path d="M730 579 H693" class="arrow"/>
+
+  <rect x="170" y="548" width="215" height="62" class="box" stroke="#E8B85F"/>
+  <text x="277" y="571" text-anchor="middle" class="box-title">比较任务（条件分支）</text>
+  <text x="277" y="592" text-anchor="middle" class="box-sub">Subject × Axis Matrix</text>
+  <path d="M277 548 V536 H855 V540" class="arrow"/>
+
+  <path d="M855 610 V630 H492 V529" class="feedback" stroke="#C66A00" marker-end="url(#arrow-amber)"/>
+  <text x="674" y="626" text-anchor="middle" class="tiny" fill="#A95700">存在缺口且预算未耗尽：定向补查</text>
+
+  <!-- L4: evidence-native writing -->
+  <rect x="60" y="672" width="1360" height="216" rx="8" fill="#FFF0ED" stroke="#F0B7AC" class="lane"/>
+  <rect x="60" y="672" width="8" height="216" fill="#D85B45"/>
+  <text x="86" y="701" class="band-title" fill="#B74232">L4 · Evidence-native E+ 写作与质量诊断</text>
+  <text x="86" y="722" class="band-sub">章节并行、全篇串行；报告 Claim 逐条回到指定 Evidence 核验，自动诊断不取代人工判断</text>
+
+  <rect x="145" y="748" width="180" height="70" class="box" stroke="#E99888"/>
+  <text x="235" y="773" text-anchor="middle" class="box-title">Blueprint + Context</text>
+  <text x="235" y="794" text-anchor="middle" class="box-sub">确定性章节选材</text>
+
+  <rect x="350" y="748" width="180" height="70" class="box" stroke="#E99888"/>
+  <text x="440" y="773" text-anchor="middle" class="box-title">Section Writers</text>
+  <text x="440" y="794" text-anchor="middle" class="box-sub">分章并发写作</text>
+
+  <rect x="555" y="748" width="180" height="70" class="box" stroke="#E99888"/>
+  <text x="645" y="773" text-anchor="middle" class="box-title">Prevalidation</text>
+  <text x="645" y="794" text-anchor="middle" class="box-sub">最小 cited span</text>
+
+  <rect x="760" y="748" width="185" height="70" class="box" stroke="#E99888"/>
+  <text x="852" y="773" text-anchor="middle" class="box-title">Editorial Claim Bank</text>
+  <text x="852" y="794" text-anchor="middle" class="box-sub">通过声明白名单</text>
+
+  <rect x="970" y="748" width="170" height="70" class="box" stroke="#E99888"/>
+  <text x="1055" y="773" text-anchor="middle" class="box-title">Serial Editorial</text>
+  <text x="1055" y="794" text-anchor="middle" class="box-sub">摘要与综合结论</text>
+
+  <rect x="1165" y="748" width="205" height="70" class="box" stroke="#DF7462"/>
+  <text x="1267" y="773" text-anchor="middle" class="box-title">Final Validation</text>
+  <text x="1267" y="793" text-anchor="middle" class="tiny">Citation / Atomic Entailment</text>
+  <text x="1267" y="808" text-anchor="middle" class="tiny">Critic / Quality Gate</text>
+
+  <path d="M325 783 H342" class="arrow"/>
+  <path d="M530 783 H547" class="arrow"/>
+  <path d="M735 783 H752" class="arrow"/>
+  <path d="M945 783 H962" class="arrow"/>
+  <path d="M1140 783 H1157" class="arrow"/>
+
+  <rect x="350" y="838" width="720" height="30" rx="6" fill="#FFF8F6" stroke="#F0B7AC"/>
+  <text x="710" y="858" text-anchor="middle" class="tiny" fill="#A43F31">输出 complete / partial / warning / [待核实]；当前默认不由 Critic 驱动 Writer 无限返修</text>
+  <path d="M1275 818 V852 H1080" class="arrow"/>
+
+  <!-- L5: knowledge asset and reuse -->
+  <rect x="60" y="914" width="1360" height="132" rx="8" fill="#ECF8EF" stroke="#AED9BC" class="lane"/>
+  <rect x="60" y="914" width="8" height="132" fill="#168A52"/>
+  <text x="86" y="943" class="band-title" fill="#117044">L5 · 人工归档与知识复用</text>
+  <text x="86" y="964" class="band-sub">Markdown / Manifest 是长期正本，LightRAG 是按 ResearchItem 独立构建、可重建的派生索引</text>
+
+  <rect x="190" y="978" width="180" height="52" class="box" stroke="#70BD8D"/>
+  <text x="280" y="1000" text-anchor="middle" class="box-title">HITL #2 · 用户审核</text>
+  <text x="280" y="1019" text-anchor="middle" class="box-sub">接受 / 暂缓 / 补研</text>
+
+  <rect x="395" y="978" width="180" height="52" class="box" stroke="#70BD8D"/>
+  <text x="485" y="1000" text-anchor="middle" class="box-title">Archive Preview</text>
+  <text x="485" y="1019" text-anchor="middle" class="box-sub">Confirm + 文件域提交</text>
+
+  <rect x="600" y="978" width="190" height="52" class="box" stroke="#4FAE75"/>
+  <text x="695" y="1000" text-anchor="middle" class="box-title">ResearchItem</text>
+  <text x="695" y="1019" text-anchor="middle" class="box-sub">Markdown + Manifest 正本</text>
+
+  <rect x="815" y="978" width="180" height="52" class="box" stroke="#70BD8D"/>
+  <text x="905" y="1000" text-anchor="middle" class="box-title">独立 LightRAG</text>
+  <text x="905" y="1019" text-anchor="middle" class="box-sub">异步派生索引</text>
+
+  <rect x="1020" y="978" width="180" height="52" class="box" stroke="#70BD8D"/>
+  <text x="1110" y="1000" text-anchor="middle" class="box-title">KnowledgeScope QA</text>
+  <text x="1110" y="1019" text-anchor="middle" class="box-sub">多 Item 聚合与引用</text>
+
+  <rect x="1225" y="978" width="165" height="52" class="box" stroke="#70BD8D"/>
+  <text x="1307" y="1000" text-anchor="middle" class="box-title">飞书知识卡</text>
+  <text x="1307" y="1019" text-anchor="middle" class="box-sub">配置化推送</text>
+
+  <path d="M370 1004 H387" class="arrow"/>
+  <path d="M575 1004 H592" class="arrow"/>
+  <path d="M790 1004 H807" class="arrow"/>
+  <path d="M995 1004 H1012" class="arrow"/>
+  <path d="M995 1004 C1080 1060 1200 1060 1307 1038" class="feedback" stroke="#168A52" marker-end="url(#arrow-green)"/>
+  <path d="M1275 868 V902 H280 V970" class="arrow"/>
+
+  <!-- cross-cutting runtime and audit -->
+  <rect x="1450" y="436" width="290" height="610" rx="8" fill="#F2F4F7" stroke="#C8CED8" class="lane"/>
+  <rect x="1450" y="436" width="8" height="610" fill="#586579"/>
+  <text x="1476" y="465" class="band-title" fill="#344054">横切层 · 运行与审计</text>
+  <text x="1476" y="487" class="band-sub">记录执行事实，不绕过内容合同</text>
+
+  <rect x="1478" y="515" width="234" height="74" class="box" stroke="#AEB6C3"/>
+  <text x="1595" y="541" text-anchor="middle" class="box-title">SQLite ResearchJob</text>
+  <text x="1595" y="562" text-anchor="middle" class="box-sub">步骤 / 心跳 / 状态 / 错误</text>
+
+  <rect x="1478" y="615" width="234" height="74" class="box" stroke="#AEB6C3"/>
+  <text x="1595" y="641" text-anchor="middle" class="box-title">Stage Checkpoint</text>
+  <text x="1595" y="662" text-anchor="middle" class="box-sub">输入输出 / Hash / 回放</text>
+
+  <rect x="1478" y="715" width="234" height="74" class="box" stroke="#AEB6C3"/>
+  <text x="1595" y="741" text-anchor="middle" class="box-title">Provider Runtime</text>
+  <text x="1595" y="762" text-anchor="middle" class="box-sub">角色配置 / Fallback / Trace</text>
+
+  <rect x="1478" y="815" width="234" height="74" class="box" stroke="#AEB6C3"/>
+  <text x="1595" y="841" text-anchor="middle" class="box-title">Bounded Budget</text>
+  <text x="1595" y="862" text-anchor="middle" class="box-sub">轮次 / URL / 材料 / 时间 / 调用</text>
+
+  <rect x="1478" y="915" width="234" height="96" rx="6" fill="#FFF7ED" stroke="#E9B873"/>
+  <text x="1595" y="945" text-anchor="middle" class="box-title" fill="#9A4D00">边界</text>
+  <text x="1595" y="970" text-anchor="middle" class="box-sub">持久 Job / Checkpoint</text>
+  <text x="1595" y="991" text-anchor="middle" class="box-sub">≠ 进程退出后自动续跑</text>
+
+  <path d="M1420 520 H1442" class="feedback" stroke="#7A8699" marker-end="url(#arrow)"/>
+  <path d="M1420 783 H1442" class="feedback" stroke="#7A8699" marker-end="url(#arrow)"/>
+  <path d="M1420 1004 H1442" class="feedback" stroke="#7A8699" marker-end="url(#arrow)"/>
+
+  <!-- inter-layer arrows -->
+  <path d="M969 186 V224 H342 V284" class="arrow"/>
+  <path d="M1275 344 V380 H275 V455" class="arrow"/>
+  <path d="M557 610 V658 H235 V740" class="arrow"/>
+
+  <text x="60" y="1080" class="tiny">实线：默认主链　　虚线：反馈、条件或派生关系　　事实权威：可回溯 Quote；Claim 用于语义路由、覆盖判断与成文声明校验</text>
+  <text x="1740" y="1080" text-anchor="end" class="tiny">Push Scheduler 当前为进程内可选能力，默认关闭；不是 FSRS 自适应复习</text>
+</svg>
